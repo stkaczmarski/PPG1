@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Movement")]
     public float moveSpeed = 5f;
     public float crouchSpeed = 2f;
+    public float runningSpeed = 8f;
     public float rotationSpeed = 10f;
     public float jumpForce = 5f;
     public float aimMoveSpeed = 3f;
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     private float pitch = 15f;
 
     private bool isCrouching = false;
+    private bool isRunning = false;
 
     public Transform firstPersonPivot;
     public bool isFirstPerson = false;
@@ -60,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
     {
         HandleJumping();
         HandleCrouching();
+        HandleRunning();
         HandleCamera();
         HandleModelVisibility();
         HandleWeaponState();
@@ -88,6 +91,18 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("isCrouching", isCrouching);
     }
 
+    private void HandleRunning()
+    {
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            isRunning = true;
+        }
+        else
+        {
+            isRunning = false;
+        }
+    }
+
     private void HandleMovement()
     {
         float h = Input.GetAxis("Horizontal");
@@ -110,8 +125,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 currentMoveSpeed = crouchSpeed;
             }
+            else if (isRunning)
+            {
+                currentMoveSpeed = runningSpeed;
+            }
 
-            Vector3 moveDir = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0) * move;
+                Vector3 moveDir = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0) * move;
 
             Vector3 targetPos = transform.position + moveDir * currentMoveSpeed * Time.fixedDeltaTime;
 
