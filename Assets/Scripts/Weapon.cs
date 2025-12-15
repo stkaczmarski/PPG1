@@ -122,7 +122,7 @@ public class Weapon : MonoBehaviour
         UpdateAmmoUI();
     }
 
-    private void UpdateAmmoUI()
+    public void UpdateAmmoUI()
     {
         if(ammoText != null)
         {

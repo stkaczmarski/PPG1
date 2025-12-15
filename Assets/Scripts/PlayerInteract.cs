@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [Header("Ustawienia")]
+    [Header("Settings")]
     [SerializeField] private float interactionDistance = 3f;
     [SerializeField] private LayerMask interactionLayer;
 
-    [Header("Referencje")]
+    [Header("References")]
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Transform holdPoint;
 
@@ -36,8 +36,11 @@ public class PlayerInteraction : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    currentObject = interactable;
-                    currentObject.StartInteract(holdPoint);
+                    bool shouldHold = interactable.StartInteract(holdPoint, this.gameObject);
+                    if (shouldHold)
+                    {
+                        currentObject = interactable;
+                    }
                 }
             }
         }

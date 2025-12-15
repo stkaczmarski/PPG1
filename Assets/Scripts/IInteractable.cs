@@ -2,6 +2,6 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    void StartInteract(Transform holdPoint);
+    bool StartInteract(Transform holdPoint, GameObject player);
     void StopInteract();
 }
