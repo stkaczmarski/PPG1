@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using TMPro;
 
 public class Weapon : MonoBehaviour
 {
@@ -31,12 +32,19 @@ public class Weapon : MonoBehaviour
 
     public Camera playerCamera;
 
+    [Header("UI")]
+    public TextMeshProUGUI ammoText;
+
     public bool isShooting, readyToShoot;
     bool allowReset = true;
     public float shootingDelay = 2f;
 
     public int bulletsPerBurst = 3;
     public int burstBulletsLeft;
+
+    public int ammoInMagazine = 7;
+    public int ammoLeftInMagazine = 7;
+    public int ammoLeft = 30;
 
     public float spreadIntensity;
 
@@ -59,6 +67,8 @@ public class Weapon : MonoBehaviour
     {
         originalPosition = transform.localPosition;
         originalRotation = transform.localRotation;
+
+        UpdateAmmoUI();
     }
 
     private void Update()
@@ -79,10 +89,44 @@ public class Weapon : MonoBehaviour
             isShooting = Input.GetKeyDown(KeyCode.Mouse0);
         }
 
-        if(readyToShoot && isShooting)
+        if(readyToShoot && isShooting && ammoLeftInMagazine > 0)
         {
             burstBulletsLeft = bulletsPerBurst;
             FireWeapon();
+            ammoLeftInMagazine--;
+            UpdateAmmoUI();
+        }
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            if(ammoLeft > 0)
+            {
+                SoundManager.Instance.reloadSound.Play();
+            }
+            Invoke("reloadWeapon", 2.378f);
+        }
+    }
+
+    private void reloadWeapon()
+    {
+        if (ammoLeftInMagazine == 0 && ammoLeft > 0)
+        {
+            ammoLeftInMagazine = ammoInMagazine;
+            ammoLeft -= ammoLeftInMagazine;
+            if (ammoLeft < ammoInMagazine)
+            {
+                ammoLeftInMagazine = ammoLeft;
+                ammoLeft = 0;
+            }
+        }
+        UpdateAmmoUI();
+    }
+
+    private void UpdateAmmoUI()
+    {
+        if(ammoText != null)
+        {
+            ammoText.text = ammoLeftInMagazine + " / " + ammoLeft;
         }
     }
 

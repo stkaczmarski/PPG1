@@ -33,7 +33,7 @@ public class PickableObject : MonoBehaviour, IInteractable
 
         // col.enabled = true;
 
-        //rb.AddForce(Camera.main.transform.forward * 100f, ForceMode.VelocityChange);
+        rb.AddForce(Camera.main.transform.forward * 100f, ForceMode.VelocityChange);
         //for(int i = 0; i < 100; i++)
         //{
         //    Instantiate(gameObject);

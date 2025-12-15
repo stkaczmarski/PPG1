@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+using UnityEditor.ShaderGraph.Internal;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,6 +16,14 @@ public class PlayerMovement : MonoBehaviour
     public float rotationSpeed = 10f;
     public float jumpForce = 5f;
     public float aimMoveSpeed = 3f;
+
+    [Header("Stamina Settings")]
+    public float maxStamina = 100f;
+    public float staminaDrainRate = 15f;
+    public float staminaRegenRate = 10f;
+    public TextMeshProUGUI staminaText;
+
+    private float currentStamina;
 
     [Header("Camera Settings")]
     public Vector3 cameraOffset = new Vector3(0, -2, -5);
@@ -56,6 +66,9 @@ public class PlayerMovement : MonoBehaviour
 
         currentZoom = Mathf.Clamp(currentZoom, minZoom, maxZoom);
         GetRenderers();
+
+        currentStamina = maxStamina;
+        UpdateStaminaUI();
     }
 
     private void Update()
@@ -93,13 +106,33 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleRunning()
     {
-        if(Input.GetKey(KeyCode.LeftShift))
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+        bool isTryingToMove = (Mathf.Abs(h) > 0 || Mathf.Abs(v) > 0);
+
+        if(Input.GetKey(KeyCode.LeftShift) && isTryingToMove && !isCrouching && currentStamina > 0)
         {
             isRunning = true;
+            currentStamina -= staminaDrainRate * Time.deltaTime;
         }
         else
         {
             isRunning = false;
+            if(currentStamina < maxStamina && !isTryingToMove)
+            {
+                currentStamina += staminaRegenRate * Time.deltaTime;
+            }
+        }
+
+        currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
+        UpdateStaminaUI();
+    }
+
+    private void UpdateStaminaUI()
+    {
+        if(staminaText != null)
+        {
+            staminaText.text = "Stamina: " + (int)currentStamina;
         }
     }
 
