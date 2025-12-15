@@ -13,6 +13,10 @@ public class SoundManager : MonoBehaviour
     [Header("Pickup sounds")]
     public AudioSource ammoPickupSound;
     public AudioSource healthPickupSound;
+    public AudioSource moneyPickupSound;
+
+    [Header("Error Sounds")]
+    public AudioSource noMoneySound;
 
     private void Awake()
     {

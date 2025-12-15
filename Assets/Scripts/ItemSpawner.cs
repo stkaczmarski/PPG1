@@ -5,9 +5,11 @@ public class ItemSpawner : MonoBehaviour
     [Header("Spawn Settings")]
     public GameObject healthPrefab;
     public GameObject ammoPrefab;
+    public GameObject moneyPrefab;
 
-    public int healthCount = 5;
-    public int ammoCount = 5;
+    private int healthCount;
+    private int ammoCount;
+    private int moneyCount;
 
     [Header("Area Settings")]
     public Vector2 areaSize = new Vector2(50, 50);
@@ -16,8 +18,12 @@ public class ItemSpawner : MonoBehaviour
 
     private void Start()
     {
+        healthCount = Random.Range(1, 5);
+        ammoCount = Random.Range(1, 5);
+        moneyCount = Random.Range(1, 5);
         SpawnItems(healthPrefab, healthCount);
         SpawnItems(ammoPrefab, ammoCount);
+        SpawnItems(moneyPrefab, moneyCount);
     }
 
     private void SpawnItems(GameObject prefab, int count)

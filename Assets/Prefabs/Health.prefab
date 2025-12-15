@@ -126,4 +126,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
   type: 0
   amount: 10
-  weaponScript: {fileID: 0}
+  cost: 10
