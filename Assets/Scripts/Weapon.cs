@@ -48,6 +48,8 @@ public class Weapon : MonoBehaviour
 
     public float spreadIntensity;
 
+    private bool isReloading = false; 
+
     public enum ShootingMode
     {
         Single,
@@ -99,11 +101,12 @@ public class Weapon : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.R))
         {
-            if(ammoLeft > 0)
+            if(ammoLeft > 0 && !isReloading)
             {
+                isReloading = true;
                 SoundManager.Instance.reloadSound.Play();
+                Invoke("reloadWeapon", 2.378f);
             }
-            Invoke("reloadWeapon", 2.378f);
         }
     }
 
@@ -140,6 +143,7 @@ public class Weapon : MonoBehaviour
             }
         }
         UpdateAmmoUI();
+        isReloading = false;
     }
 
     public void UpdateAmmoUI()
