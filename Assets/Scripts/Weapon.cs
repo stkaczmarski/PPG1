@@ -109,14 +109,34 @@ public class Weapon : MonoBehaviour
 
     private void reloadWeapon()
     {
-        if (ammoLeftInMagazine == 0 && ammoLeft > 0)
+
+        if(ammoLeft > 0)
         {
-            ammoLeftInMagazine = ammoInMagazine;
-            ammoLeft -= ammoLeftInMagazine;
-            if (ammoLeft < ammoInMagazine)
+            if(ammoLeftInMagazine > 0 && ammoLeftInMagazine < 7)
             {
-                ammoLeftInMagazine = ammoLeft;
-                ammoLeft = 0;
+                if(ammoLeft < (ammoInMagazine - ammoLeftInMagazine))
+                {
+                    ammoLeftInMagazine += ammoLeft;
+                    ammoLeft = 0;
+                }
+                else
+                {
+                    ammoLeft -= (ammoInMagazine - ammoLeftInMagazine);
+                    ammoLeftInMagazine = ammoInMagazine;
+                }
+            }
+            else
+            {
+                if(ammoLeft >= 7)
+                {
+                    ammoLeftInMagazine = ammoInMagazine;
+                    ammoLeft -= ammoInMagazine;
+                }
+                else
+                {
+                    ammoLeftInMagazine += ammoLeft;
+                    ammoLeft = 0;
+                }
             }
         }
         UpdateAmmoUI();
@@ -135,7 +155,7 @@ public class Weapon : MonoBehaviour
         if(currentBulletType == BulletType.Normal)
         {
             currentBulletType = BulletType.DelayedDestroy;
-            print("Zmieniono na pociski o opóŸnionym usuniêciu");
+            print("Zmieniono na pociski o opï¿½nionym usuniï¿½ciu");
         }
         else
         {
@@ -153,7 +173,7 @@ public class Weapon : MonoBehaviour
         Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
 
 
-        // Stwórz pocisk
+        // Stwï¿½rz pocisk
         //GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
 
         GameObject bulletToFire;
@@ -169,11 +189,11 @@ public class Weapon : MonoBehaviour
 
         GameObject bullet = Instantiate(bulletToFire, bulletSpawn.position, Quaternion.identity);
 
-        // Skierowanie pocisku w strone strza³u
+        // Skierowanie pocisku w strone strzaï¿½u
         bullet.transform.forward = shootingDirection;
         // Wystrzel pocisk
         bullet.GetComponent<Rigidbody>().AddForce(shootingDirection *  bulletVelocity, ForceMode.Impulse);
-        // Usuñ pocisk
+        // Usuï¿½ pocisk
         StartCoroutine(DestroyBulletAfterTime(bullet, bulletPrefabLifeTime));
 
         if(allowReset)
@@ -183,7 +203,7 @@ public class Weapon : MonoBehaviour
         }
 
         // BurstMode
-        if(currentShootingMode == ShootingMode.Burst && burstBulletsLeft > 1) // wiêcej ni¿ jeden, bo ju¿ jeden pocisk by³ wystrzelony
+        if(currentShootingMode == ShootingMode.Burst && burstBulletsLeft > 1) // wiï¿½cej niï¿½ jeden, bo juï¿½ jeden pocisk byï¿½ wystrzelony
         {
             burstBulletsLeft--;
             Invoke("FireWeapon", shootingDelay);
@@ -216,7 +236,7 @@ public class Weapon : MonoBehaviour
         float x = UnityEngine.Random.Range(-spreadIntensity,spreadIntensity);
         float y = UnityEngine.Random.Range(-spreadIntensity, spreadIntensity);
 
-        // Zwraca kierunek strza³u i rozrzut
+        // Zwraca kierunek strzaï¿½u i rozrzut
         return direction + new Vector3(x, y, 0);
     }
 
