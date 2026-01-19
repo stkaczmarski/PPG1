@@ -17,3 +17,5 @@ MonoBehaviour:
   type: 0
   amount: 20
   description: 
+  buyPrice: 30
+  sellPrice: 10

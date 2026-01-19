@@ -58,6 +58,28 @@ public class InventoryManager : MonoBehaviour
         HandleToolbarInput();
     }
 
+    public void SetInventoryState(bool isOpen)
+    {
+        isInventoryOpen = isOpen;
+        inventoryPanel.SetActive(isInventoryOpen);
+
+        if (isInventoryOpen)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    public void ToggleInventory()
+    {
+        SetInventoryState(!isInventoryOpen);
+    }
+
     public bool AddItem(ItemData newItem)
     {
         for (int i = 0; i < toolbarItems.Length; i++)
@@ -82,6 +104,19 @@ public class InventoryManager : MonoBehaviour
 
         Debug.Log("Ekwipunek pe³ny!");
         return false;
+    }
+
+    public void RemoveItem(InventorySlot slot)
+    {
+        if (slot.isToolbarSlot)
+        {
+            toolbarItems[slot.slotIndex] = null;
+        }
+        else
+        {
+            mainInventoryItems[slot.slotIndex] = null;
+        }
+        slot.Setup(null);
     }
 
     public void SwapItems(InventorySlot slotA, InventorySlot slotB)
@@ -126,24 +161,6 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < toolbarSlotsUI.Length; i++)
         {
             toolbarSlotsUI[i].Setup(i < toolbarItems.Length ? toolbarItems[i] : null);
-        }
-    }
-
-    private void ToggleInventory()
-    {
-        isInventoryOpen = !isInventoryOpen;
-        inventoryPanel.SetActive(isInventoryOpen);
-
-        // Obs³uga kursora
-        if (isInventoryOpen)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
         }
     }
 

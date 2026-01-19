@@ -8,4 +8,8 @@ public class ItemData : ScriptableObject
     public ItemPickup.PickupType type;
     public int amount = 10; // Ile leczy/ile amunicji
     [TextArea] public string description;
+
+    [Header("Economy")]
+    public int buyPrice = 50;
+    public int sellPrice = 25;
 }
