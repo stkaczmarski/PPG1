@@ -9,6 +9,7 @@ public class PlayerHealth : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI healthText;
+    public GameObject gameOverPanel;
 
     [Header("Scripts")]
     public PlayerMovement playerMovement;
@@ -78,6 +79,7 @@ public class PlayerHealth : MonoBehaviour
     {
         print("Gracz nie ¿yje!");
 
+        gameOverPanel.SetActive(true);
         if (playerMovement != null) playerMovement.enabled = false;
         if (weaponScript != null) weaponScript.enabled = false;
     }

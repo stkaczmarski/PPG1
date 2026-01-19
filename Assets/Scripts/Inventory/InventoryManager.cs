@@ -92,8 +92,9 @@ public class InventoryManager : MonoBehaviour
         // Zamiana danych w tablicach
         SetItemInSlot(slotA, itemB);
         SetItemInSlot(slotB, itemA);
-
-        RefreshUI();
+        slotA.Setup(itemB);
+        slotB.Setup(itemA);
+        //RefreshUI();
     }
 
     private ItemData GetItemFromSlot(InventorySlot slot)
@@ -104,8 +105,15 @@ public class InventoryManager : MonoBehaviour
 
     private void SetItemInSlot(InventorySlot slot, ItemData item)
     {
-        if (slot.isToolbarSlot) toolbarItems[slot.slotIndex] = item;
-        else mainInventoryItems[slot.slotIndex] = item;
+        if (slot.isToolbarSlot)
+        {
+            toolbarItems[slot.slotIndex] = item;
+        }
+        else
+        {
+            mainInventoryItems[slot.slotIndex] = item;
+        }
+        slot.Setup(item);
     }
 
     public void RefreshUI()

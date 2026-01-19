@@ -236,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // obrót kamery
-        if (isFirstPerson && !InventoryManager.Instance.IsInventoryOpen)
+        if (isFirstPerson && ( InventoryManager.Instance == null ||  !InventoryManager.Instance.IsInventoryOpen))
         {
             yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
             pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;

@@ -8,8 +8,9 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public Image iconImage;
     public Image selectionOutline;
 
-    [HideInInspector] public ItemData item;
-    [HideInInspector] public int slotIndex;
+    
+    public ItemData item;
+    public int slotIndex;
     [HideInInspector] public bool isToolbarSlot;
 
     private Transform originalParent;
@@ -27,16 +28,17 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void Setup(ItemData newItem)
     {
+
         item = newItem;
         if (item != null)
         {
-            iconImage.sprite = item.icon;
             iconImage.enabled = true;
+            iconImage.sprite = item.icon;
         }
         else
         {
-            iconImage.sprite = null;
             iconImage.enabled = false;
+            iconImage.sprite = null;
         }
     }
 
@@ -44,9 +46,9 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (item == null) return;
         
-        originalParent = iconImage.transform.parent;
+        originalParent = transform;
         iconImage.transform.SetParent(inventoryManager.transform);
-        canvasGroup.blocksRaycasts = false;
+        //canvasGroup.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -57,22 +59,24 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (item == null) return;
+        //if (item == null) return;
 
         iconImage.transform.SetParent(originalParent);
         iconImage.transform.localPosition = Vector3.zero;
-        canvasGroup.blocksRaycasts = true;
+        //canvasGroup.blocksRaycasts = true;
 
-        inventoryManager.RefreshUI();
+
     }
 
     public void OnDrop(PointerEventData eventData)
     {
+       
         InventorySlot draggedSlot = eventData.pointerDrag.GetComponent<InventorySlot>();
 
-        if (draggedSlot != null)
+        if (draggedSlot != null && draggedSlot.item != null)
         {
             inventoryManager.SwapItems(draggedSlot, this);
         }
+        inventoryManager.RefreshUI();
     }
 }
