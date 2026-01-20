@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class ShopInteractable : MonoBehaviour, IInteractable
 {
-    private ShopManager shopManager;
+    public ShopManager shopManager;
 
     private void Start()
     {
-        shopManager = FindAnyObjectByType<ShopManager>();
+        //shopManager = FindAnyObjectByType<ShopManager>();
     }
 
     public bool StartInteract(Transform holdPoint, GameObject player)
     {
         if (shopManager != null)
         {
-            shopManager.OpenShop(this);
+            shopManager.ToggleShop(this);
             return true;
         }
         return false;
@@ -21,9 +21,9 @@ public class ShopInteractable : MonoBehaviour, IInteractable
 
     public void StopInteract()
     {
-        if (shopManager != null)
-        {
-            shopManager.CloseShop();
-        }
+        //if (shopManager != null)
+        //{
+        //    shopManager.CloseShop();
+        //}
     }
 }

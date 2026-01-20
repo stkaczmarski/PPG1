@@ -9,7 +9,7 @@ public class ItemData : ScriptableObject
     public int amount = 10; // Ile leczy/ile amunicji
     [TextArea] public string description;
 
-    [Header("Economy")]
+    [Header("Price")]
     public int buyPrice = 50;
     public int sellPrice = 25;
 }

@@ -7975,6 +7975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fde41752ec5780040845803c66ec8165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopInteractable
+  shopManager: {fileID: 132129663}
 --- !u!1001 &1410599886
 PrefabInstance:
   m_ObjectHideFlags: 0

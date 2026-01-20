@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ShopManager : MonoBehaviour
@@ -14,14 +15,15 @@ public class ShopManager : MonoBehaviour
     public PlayerEconomy playerEconomy;
 
     private ShopInteractable currentShopInteractable;
+    private bool isOpen = false;
 
     private void Start()
     {
         if (playerEconomy == null)
-            playerEconomy = FindAnyObjectByType<PlayerEconomy>();
+             playerEconomy = FindAnyObjectByType<PlayerEconomy>();
+             shopBarPanel.SetActive(false);
+            UpdateShopUI();
 
-        shopBarPanel.SetActive(false);
-        UpdateShopUI();
     }
 
     private void UpdateShopUI()
@@ -43,6 +45,7 @@ public class ShopManager : MonoBehaviour
 
     public void OpenShop(ShopInteractable interactable)
     {
+        isOpen = true;
         currentShopInteractable = interactable;
         shopBarPanel.SetActive(true);
 
@@ -51,6 +54,7 @@ public class ShopManager : MonoBehaviour
 
     public void CloseShop()
     {
+        isOpen = false;
         shopBarPanel.SetActive(false);
         currentShopInteractable = null;
 
@@ -98,6 +102,18 @@ public class ShopManager : MonoBehaviour
 
             if (SoundManager.Instance.moneyPickupSound != null)
                 SoundManager.Instance.moneyPickupSound.Play();
+        }
+    }
+
+    internal void ToggleShop(ShopInteractable shopInteractable)
+    {
+        if(isOpen)
+        {
+            CloseShop();
+        }
+        else
+        {
+            OpenShop(shopInteractable);
         }
     }
 }

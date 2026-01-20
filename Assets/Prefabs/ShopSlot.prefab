@@ -165,5 +165,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopSlot
   isSellSlot: 0
-  iconImage: {fileID: 2063360370446841615}
+  iconImage: {fileID: 3808313236437697402}
   priceText: {fileID: 0}
