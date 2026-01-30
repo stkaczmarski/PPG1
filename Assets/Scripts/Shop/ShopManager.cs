@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
+    public static ShopManager Instance;
+
     [Header("References")]
     public GameObject shopBarPanel;
     public ShopSlot[] buySlots;
@@ -11,11 +13,18 @@ public class ShopManager : MonoBehaviour
     [Header("Shop Content")]
     public ItemData[] itemsForSale;
 
-    [Header("Dependencies")]
+    [Header("Scripts")]
     public PlayerEconomy playerEconomy;
+    public PlayerMovement playerMovement;
+    public Weapon weaponScript;
 
     private ShopInteractable currentShopInteractable;
     private bool isOpen = false;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -24,6 +33,16 @@ public class ShopManager : MonoBehaviour
              shopBarPanel.SetActive(false);
             UpdateShopUI();
 
+    }
+    private void Update()
+    {
+        if (isOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                CloseShop();
+            }
+        }
     }
 
     private void UpdateShopUI()
@@ -48,6 +67,9 @@ public class ShopManager : MonoBehaviour
         isOpen = true;
         currentShopInteractable = interactable;
         shopBarPanel.SetActive(true);
+        if (playerMovement != null) playerMovement.enabled = false;
+        if (weaponScript != null) weaponScript.enabled = false;
+
 
         InventoryManager.Instance.SetInventoryState(true);
     }
@@ -57,6 +79,8 @@ public class ShopManager : MonoBehaviour
         isOpen = false;
         shopBarPanel.SetActive(false);
         currentShopInteractable = null;
+        if (playerMovement != null) playerMovement.enabled = true;
+        if (weaponScript != null) weaponScript.enabled = true;
 
         InventoryManager.Instance.SetInventoryState(false);
     }
@@ -75,14 +99,14 @@ public class ShopManager : MonoBehaviour
             else
             {
                 playerEconomy.AddMoney(item.buyPrice);
-                Debug.Log("Brak miejsca w ekwipunku!");
+                Debug.Log("Brak miejsca w ekwipunku");
             }
         }
         else
         {
             if (SoundManager.Instance.noMoneySound != null)
                 SoundManager.Instance.noMoneySound.Play();
-            Debug.Log("Brak pieniêdzy!");
+            Debug.Log("Brak pieniêdzy");
         }
     }
 

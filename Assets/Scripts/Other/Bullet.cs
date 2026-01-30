@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour
     };
 
     public BulletType type;
+    [HideInInspector] public float damageAmount;
 
     private bool isTimerStarted;
     private void OnTriggerEnter(Collider other)
@@ -24,7 +25,20 @@ public class Bullet : MonoBehaviour
     }
     private void OnCollisionEnter(Collision objectWeHit)
     {
-        if(objectWeHit.gameObject.CompareTag("Target"))
+        NPCStats enemy = objectWeHit.gameObject.GetComponent<NPCStats>();
+        if (enemy == null)
+        {
+            enemy = objectWeHit.gameObject.GetComponentInParent<NPCStats>();
+        }
+
+        if (enemy != null)
+        {
+            enemy.TakeDamage(damageAmount);
+            Destroy(gameObject);
+            return;
+        }
+
+        if (objectWeHit.gameObject.CompareTag("Target"))
         {
             print("Trafiono w " + objectWeHit.gameObject.name + " !");   
             CreateBulletImpactEffect(objectWeHit);

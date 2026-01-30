@@ -73,6 +73,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (DialogueManager.instance != null && DialogueManager.instance.isDialogueActive)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            if (animator != null) animator.SetBool("isWalking", false);
+
+            return;
+        }
+
         HandleJumping();
         HandleCrouching();
         HandleRunning();
@@ -82,6 +92,12 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (DialogueManager.instance != null && DialogueManager.instance.isDialogueActive)
+        {
+            _rb.linearVelocity = new Vector3(0, _rb.linearVelocity.y, 0);
+            return;
+        }
+
         HandleMovement();
     }
 

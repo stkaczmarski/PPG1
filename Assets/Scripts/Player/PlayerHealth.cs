@@ -77,8 +77,6 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        print("Gracz nie ¿yje!");
-
         gameOverPanel.SetActive(true);
         if (playerMovement != null) playerMovement.enabled = false;
         if (weaponScript != null) weaponScript.enabled = false;

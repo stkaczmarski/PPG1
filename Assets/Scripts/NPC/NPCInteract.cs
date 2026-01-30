@@ -7,13 +7,13 @@ public class NPCInteract : MonoBehaviour
     public bool player_detection;
 
     public List<DialogueNode> myConversation;
+    public ShopInteractable myShopScript;
 
     void Update()
     {
         if (player_detection && Input.GetKeyDown(KeyCode.E) && !DialogueManager.instance.isDialogueActive)
         {
-            Debug.Log("Interakcja: Start dialogu");
-            DialogueManager.instance.StartDialogue(myConversation);
+            DialogueManager.instance.StartDialogue(myConversation, myShopScript);
         }
     }
 

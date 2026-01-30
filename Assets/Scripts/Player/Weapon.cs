@@ -29,6 +29,7 @@ public class Weapon : MonoBehaviour
     public Transform bulletSpawn;
     public float bulletVelocity = 30;
     public float bulletPrefabLifeTime = 3f;
+    public float weaponDamage = 20f;
 
     public Camera playerCamera;
 
@@ -176,10 +177,6 @@ public class Weapon : MonoBehaviour
 
         Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
 
-
-        // Stw�rz pocisk
-        //GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
-
         GameObject bulletToFire;
 
         if(currentBulletType == BulletType.Normal)
@@ -193,11 +190,16 @@ public class Weapon : MonoBehaviour
 
         GameObject bullet = Instantiate(bulletToFire, bulletSpawn.position, Quaternion.identity);
 
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+        if (bulletScript != null)
+        {
+            bulletScript.damageAmount = weaponDamage;
+        }
         // Skierowanie pocisku w strone strza�u
         bullet.transform.forward = shootingDirection;
         // Wystrzel pocisk
         bullet.GetComponent<Rigidbody>().AddForce(shootingDirection *  bulletVelocity, ForceMode.Impulse);
-        // Usu� pocisk
+        // Usun pocisk
         StartCoroutine(DestroyBulletAfterTime(bullet, bulletPrefabLifeTime));
 
         if(allowReset)
@@ -207,7 +209,7 @@ public class Weapon : MonoBehaviour
         }
 
         // BurstMode
-        if(currentShootingMode == ShootingMode.Burst && burstBulletsLeft > 1) // wi�cej ni� jeden, bo ju� jeden pocisk by� wystrzelony
+        if(currentShootingMode == ShootingMode.Burst && burstBulletsLeft > 1)
         {
             burstBulletsLeft--;
             Invoke("FireWeapon", shootingDelay);
@@ -240,7 +242,7 @@ public class Weapon : MonoBehaviour
         float x = UnityEngine.Random.Range(-spreadIntensity,spreadIntensity);
         float y = UnityEngine.Random.Range(-spreadIntensity, spreadIntensity);
 
-        // Zwraca kierunek strza�u i rozrzut
+        // Zwraca kierunek strzalu i rozrzut
         return direction + new Vector3(x, y, 0);
     }
 

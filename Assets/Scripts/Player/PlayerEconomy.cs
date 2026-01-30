@@ -32,7 +32,7 @@ public class PlayerEconomy : MonoBehaviour
         }
         else
         {
-            Debug.Log("Nie masz wystarczaj¹co pieniêdzy!");
+            Debug.Log("Nie masz wystarczaj¹co pieniêdzy");
             return false;
         }
     }

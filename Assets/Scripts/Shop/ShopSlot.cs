@@ -8,7 +8,7 @@ public class ShopSlot : MonoBehaviour, IDropHandler, IPointerClickHandler
     [Header("Settings")]
     public bool isSellSlot = false;
 
-    [Header("UI References")]
+    [Header("UI")]
     public Image iconImage;
     public TextMeshProUGUI priceText;
 

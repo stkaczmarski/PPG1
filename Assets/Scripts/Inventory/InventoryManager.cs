@@ -101,8 +101,6 @@ public class InventoryManager : MonoBehaviour
                 return true;
             }
         }
-
-        Debug.Log("Ekwipunek pe³ny!");
         return false;
     }
 
@@ -124,7 +122,6 @@ public class InventoryManager : MonoBehaviour
         ItemData itemA = GetItemFromSlot(slotA);
         ItemData itemB = GetItemFromSlot(slotB);
 
-        // Zamiana danych w tablicach
         SetItemInSlot(slotA, itemB);
         SetItemInSlot(slotB, itemA);
         slotA.Setup(itemB);
