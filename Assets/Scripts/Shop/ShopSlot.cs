@@ -17,7 +17,7 @@ public class ShopSlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     private void Start()
     {
-        //shopManager = FindAnyObjectByType<ShopManager>();
+        shopManager = FindAnyObjectByType<ShopManager>();
     }
 
     public void SetupShopSlot(ItemData item)
